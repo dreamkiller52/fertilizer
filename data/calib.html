@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Controleur Pompe Engrais</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  
+  <script>
+	function submitMessageCalibration() {
+		alert("La calibration de la pompe commencera dans 10s");
+	}
+	
+	function submitCalib() {
+    alert("Valeur de calibration sauvegarde");
+    setTimeout(function(){ document.location.reload(false); }, 500);
+  }
+  </script>
+</head>
+
+
+
+<body>
+  <h1>Calibration Pompe</h1>
+  
+  <nav class=menu>
+	<ul>
+		<li><a href="/">Accueil</a></li>
+		<li><a href="#">Gestion Pompes</a>
+			<ul id="submenu">
+				<li><a href="/gest_pump_1.html">Pompe 1</a></li>
+				<li><a href="/gest_pump_2.html">Pompe 2</a></li>
+			</ul>
+		</li>
+		<li><a href="/status.html">Status</a></li>
+		<li><a href="/calib.html">Calibration</a></li>
+	</ul>
+  </nav>
+  <br>
+  <br>
+
+  <p>
+	Pompe 1: (Calibration actuelle: %calibPump_1% mL)
+		<br>
+		<a href="/calib_pump?pump=1" onclick="submitMessageCalibration()"><button class="calib">Calibrer Pompe 1</button></a>
+		<form action="/post" target="hidden-form">
+			<input type="text" name="pump" value="1" hidden>
+			Valeur de la calibration en mL: <input type="number" name="calib_pump" step="0.01">
+		<input type="submit" value="Enregistrer" onclick="submitCalib()">
+</form>
+<iframe style="display:none" name="hidden-form"></iframe>
+<br>
+  </p>
+  
+  <p>
+	Pompe 2: (Calibration actuelle: %calibPump_2% mL)
+		<br>
+		<a href="/calib_pump?pump=2" onclick="submitMessageCalibration()"><button class="calib">Calibrer Pompe 2</button></a>
+		<form action="/post" target="hidden-form">
+			<input type="text" name="pump" value="2" hidden>
+			Valeur de la calibration en mL: <input type="number" name="calib_pump" step="0.01">
+		<input type="submit" value="Enregistrer" onclick="submitCalib()">
+</form>
+<iframe style="display:none" name="hidden-form"></iframe>
+<br>
+  </p>
+  
+  </body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Controleur Pompe Engrais</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <script src="raphael-2.1.4.min.js"></script>
+  <!--<script src="../justgage-1.0.1.js"></script>-->
+  <script src="justgage.js"></script>
+  <script>
+	function submitRefill() {
+    alert("Volume disponible reinitialise!");
+    setTimeout(function(){ document.location.reload(false); }, 500);
+	}
+	
+  $(document).ready(function(){
+	if(%STATUS_PUMP1%)
+	{
+		$( "#liquid1" ).show();
+	}
+	else
+	{	
+		$( "#liquid1" ).hide();
+	}
+	});
+	
+	 $(document).ready(function(){
+	if(%STATUS_PUMP2%)
+	{
+		$( "#liquid2" ).show();
+	}
+	else
+	{	
+		$( "#liquid2" ).hide();
+	}
+	});
+	
+	 $(document).ready(function(){
+	if(%STATUS_PUMP3%)
+	{
+		$( "#liquid3" ).show();
+	}
+	else
+	{	
+		$( "#liquid3" ).hide();
+	}
+	});
+	
+	
+	var day;
+	if ("%PER_DAY1%" == "jour")
+	{
+		$day=Math.floor((%BOTTLE_CAPACITY1%-%DELIVERY1%)/%DOSE1%);
+	}
+	else
+	{
+		$day=Math.floor((%BOTTLE_CAPACITY1%-%DELIVERY1%)/%DOSE1%*7);
+	}
+	
+	var day2;
+	if ("%PER_DAY2%" == "jour")
+	{
+		$day2=Math.floor((%BOTTLE_CAPACITY2%-%DELIVERY2%)/%DOSE2%);
+	}
+	else
+	{
+		$day2=Math.floor((%BOTTLE_CAPACITY2%-%DELIVERY2%)/%DOSE2%*7);
+	}
+	
+	var day3;
+	if ("%PER_DAY3%" == "jour")
+	{
+		$day3=Math.floor((%BOTTLE_CAPACITY3%-%DELIVERY3%)/%DOSE3%);
+	}
+	else
+	{
+		$day3=Math.floor((%BOTTLE_CAPACITY3%-%DELIVERY3%)/%DOSE3%*7);
+	}
+	  
+	 document.addEventListener("DOMContentLoaded", function (event) {
+	   var liquid1 = new JustGage({
+			id: "liquid1",
+			//value: getRandomInt(0, 100),
+			value: 100-(%DELIVERY1%*100/%BOTTLE_CAPACITY1%),
+			min: 0,
+			max: 100,
+			title: "%NAME_PUMP_1%",
+			label: $day +"j restant",
+			startAnimationTime: 2000,
+			startAnimationType: ">",
+			refreshAnimationTime: 1000,
+			refreshAnimationType: "bounce",
+			levelColors: [
+			  "#FF0000",
+			  "#FFFF00",
+			  "#00FF00"
+			],
+			relativeGaugeSize: true,
+			textRenderer: function (val) {
+			  return (val + "");
+			}
+		  });
+		  
+		  var liquid2 = new JustGage({
+			id: "liquid2",
+			//value: getRandomInt(0, 100),
+			value: 100-(%DELIVERY2%*100/%BOTTLE_CAPACITY2%),
+			min: 0,
+			max: 100,
+			title: "%NAME_PUMP_2%",
+			label: $day2 +"j restant",
+			startAnimationTime: 2000,
+			startAnimationType: ">",
+			refreshAnimationTime: 1000,
+			refreshAnimationType: "bounce",
+			levelColors: [
+			  "#FF0000",
+			  "#FFFF00",
+			  "#00FF00"
+			],
+			relativeGaugeSize: true,
+			textRenderer: function (val) {
+			  return (val + "");
+			}
+		  }); 
+		  
+		 var liquid3 = new JustGage({
+			id: "liquid3",
+			//value: getRandomInt(0, 100),
+			value: 100-(%DELIVERY3%*100/%BOTTLE_CAPACITY3%),
+			min: 0,
+			max: 100,
+			title: "%NAME_PUMP_3%",
+			label: $day3 +"j restant",
+			startAnimationTime: 2000,
+			startAnimationType: ">",
+			refreshAnimationTime: 1000,
+			refreshAnimationType: "bounce",
+			levelColors: [
+			  "#FF0000",
+			  "#FFFF00",
+			  "#00FF00"
+			],
+			relativeGaugeSize: true,
+			textRenderer: function (val) {
+			  return (val + "");
+			}
+		  }); 
+		 
+			setInterval(function () {
+				liquid1.refresh(100-(%DELIVERY1%*100/%BOTTLE_CAPACITY1%));
+				liquid2.refresh(100-(%DELIVERY2%*100/%BOTTLE_CAPACITY2%));
+				liquid3.refresh(100-(%DELIVERY3%*100/%BOTTLE_CAPACITY3%));
+			}, 2500); 
+		 
+		});
+  </script>
+</head>
+<body>
+  <h1>Status des engrais</h1>
+  <div>
+	  <nav class=menu>
+		<ul>
+			<li><a href="/">Accueil</a></li>
+			<li><a href="#">Gestion Pompes</a>
+				<ul id="submenu">
+					<li><a href="/gest_pump_1.html">Pompe 1</a></li>
+					<li><a href="/gest_pump_2.html">Pompe 2</a></li>
+					<li><a href="/gest_pump_3.html">Pompe 3</a></li>
+				</ul>
+			</li>
+			<li><a href="/status.html">Status</a></li>
+			<li><a href="/calib.html">Calibration</a></li>
+		</ul>
+	  </nav>
+  </div>
+  <br>
+  <br>
+  <div id=row>
+	  <div id="liquid1">
+			<iframe style="display:none" name="hidden-form"></iframe>
+			<form action="/refill" target="hidden-form" name="refill_pump">
+				<input type="text" id="pump" name="pump" value="1" hidden>
+				<input type="submit" id="refill_pump" value="changement de bouteille" onclick="submitRefill()" >
+			</form>
+	  </div>
+	  <div id="liquid2">
+			<iframe style="display:none" name="hidden-form"></iframe>
+			<form action="/refill" target="hidden-form" name="refill_pump">
+				<input type="text" id="pump" name="pump" value="2" hidden>
+				<input type="submit" id="refill_pump" value="changement de bouteille" onclick="submitRefill()" >
+			</form>
+	  </div>
+	  <div id="liquid3">
+			<iframe style="display:none" name="hidden-form"></iframe>
+			<form action="/refill" target="hidden-form" name="refill_pump">
+				<input type="text" id="pump" name="pump" value="3" hidden>
+				<input type="submit" id="refill_pump" value="changement de bouteille" onclick="submitRefill()" >
+			</form>
+	  </div>
+	</div>
+</body>
+</html>  

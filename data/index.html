@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Controleur Pompe Engrais</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  
+    <script>
+	
+	function toogle_led(element) {
+
+
+  var xhr = new XMLHttpRequest();
+  if(element.checked){
+  xhr.open("GET", "/post?led="+element.id+"&state=1", true); }
+  else { xhr.open("GET", "/post?led="+element.id+"&state=0", true); }
+  xhr.send();
+}
+
+  </script>
+  
+  
+</head>
+<body>
+  <h1>Controleur Pompe Engrais</h1>
+  
+  <nav class=menu>
+	<ul>
+		<li><a href="/">Accueil</a></li>
+		<li><a href="#">Gestion Pompes</a>
+			<ul id="submenu">
+				<li><a href="/gest_pump_1.html">Pompe 1</a></li>
+				<li><a href="/gest_pump_2.html">Pompe 2</a></li>
+				<li><a href="/gest_pump_3.html">Pompe 3</a></li>
+			</ul>
+		</li>
+		<li><a href="/status.html">Status</a></li>
+		<li><a href="/calib.html">Calibration</a></li>
+	</ul>
+  </nav>
+  </br>
+  <p>GPIO state: <strong> %STATE%</strong></p>
+  
+	<!--<form action="/post" target="hidden-form">-->
+	  <label class="switch">
+	  <input type="checkbox" id="toogle_led" onchange="toogle_led(this)" %STATUS_LED1%>
+	  
+	  <span class="slider round"></span>
+	   </label>
+	<!--</form>-->
+	
+ <!-- <p><a href="/on"><button class="button">ON</button></a></p>
+  <p><a href="/off"><button class="button button2">OFF</button></a></p>-->
+</body>
+</html>
